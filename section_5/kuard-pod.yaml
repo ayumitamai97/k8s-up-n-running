@@ -1,0 +1,18 @@
+# Section 5.3.2
+
+# 2.4.1 の
+# `docker run -d --name kuard --publish 8080:8080 IMAGE_NAME:TAG`
+# とだいたい同じことをする
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+spec:
+  containers:
+    - image: gcr.io/kuar-demo-tamai/kuard-amd64:1
+      name: kuard
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
