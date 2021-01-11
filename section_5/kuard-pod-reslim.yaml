@@ -1,0 +1,29 @@
+# Section 5.7.2 リソース使用量制限
+
+# Pod の定義では、manifestを書き換えるたびに
+# 既存の Pod を `kubectl delete pods kuard` する必要がある
+
+# 削除しないと：
+# Forbidden: pod updates may not change fields other than
+# `spec.containers[*].image`, `spec.initContainers[*].image`, `spec.activeDeadlineSeconds` or `spec.tolerations`
+# (only additions to existing tolerations)
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+spec:
+  containers:
+    - image: gcr.io/kuar-demo-tamai/kuard-amd64:1
+      name: kuard
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      resources:
+        requests:
+          cpu: "500m"
+          memory: "128Mi"
+        limits: # さらにこの辺を追加した
+          cpu: "1000m"    # 1 CPUコア
+          memory: "256Mi" # 256MBメモリ
