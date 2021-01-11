@@ -1,0 +1,23 @@
+# Section 5.8.1 Volume
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kuard
+spec:
+  containers:
+    - image: gcr.io/kuar-demo-tamai/kuard-amd64:1
+      name: kuard
+      ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+      volumeMounts: # この辺を追加した
+        - mountPath: "/data" # kuard container の /data パスに、
+          name: "kuard-data" # 下で定義する kuard-data Volume をマウントする
+  volumes: # この辺を追加した
+    - name: "kuard-data"
+      hostPath:
+        path: "/var/lib/kuard" # ワーカノードのパス
+      # hostPath.path の代わりに nfs.server と nfs.path を設定すると
+      # ネットワーク越しに NFS Volume を定義できる
