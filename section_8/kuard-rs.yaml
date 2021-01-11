@@ -1,0 +1,21 @@
+# Section 8.4 ReplicaSet
+
+apiVersion: apps/v1 # 2021年1月時点ではこれが正しい
+kind: ReplicaSet
+metadata:
+  name: kuard
+spec:
+  replicas: 1
+  selector: # apiVersion: apps/v1 では、 label selector の指定が必要
+    matchLabels:
+      app: kuard
+      version: "2"
+  template:
+    metadata:
+      labels:
+        app: kuard
+        version: "2"
+    spec:
+      containers:
+        - name: kuard
+          image: gcr.io/kuar-demo-tamai/kuard-amd64:2
