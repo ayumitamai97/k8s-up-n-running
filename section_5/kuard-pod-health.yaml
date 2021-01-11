@@ -12,11 +12,11 @@ spec:
         - containerPort: 8080
           name: http
           protocol: TCP
-      livenessProbe: # この辺を追加した
+      livenessProbe: # この辺を追加した Probe が失敗したらコンテナを再起動する
         httpGet:
           path: /healthy
           port: 8080
-        initialDelaySeconds: 5
+        initialDelaySeconds: 5 # Pod内の全コンテナが作成されて5秒経過するまではリクエストを送らない
         timeoutSeconds: 1
-        periodSeconds: 10
-        failureThreshold: 3
+        periodSeconds: 10 # 10秒ごとに監視する
+        failureThreshold: 3 # Probe が失敗した場合3回までリトライする
